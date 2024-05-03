@@ -1,0 +1,5 @@
+### Setup Instructions
+1. Clone this repository to your local machine.
+2. Install required Python packages (`pip install pandas matplotlib seaborn`).
+3. Obtain YouTube API credentials.
+4. Run the Jupyter Notebook to fetch data and generate visualizations.

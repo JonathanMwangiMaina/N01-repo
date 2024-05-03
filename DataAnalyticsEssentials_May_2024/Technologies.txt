@@ -1,0 +1,5 @@
+### Technologies Used
+- **Python**: For data extraction, preprocessing, and analysis.
+- **Jupyter Notebook**: Document code and analysis.
+- **Pandas**, **Matplotlib**, and **Seaborn**: Data manipulation and visualization.
+- **YouTube API**: Retrieve channel data programmatically.

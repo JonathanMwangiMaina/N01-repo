@@ -1,0 +1,12 @@
+### Approach
+1. **Data Collection**: Retrieve channel metrics (views, subscribers, etc.) using the YouTube API.
+2. **Exploratory Data Analysis (EDA)**:
+    - Identify growth patterns.
+    - Analyze video performance (likes, comments, shares).
+3. **Hypothesis Testing**:
+    - Test if certain video types lead to more subscribers.
+    - Investigate correlation between watch time and views.
+4. **Content Strategy Recommendations**:
+    - Optimize video titles, descriptions, and thumbnails.
+    - Experiment with different video formats.
+    - Collaborate with other creators.
