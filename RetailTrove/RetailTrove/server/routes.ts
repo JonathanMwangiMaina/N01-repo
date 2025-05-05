@@ -172,56 +172,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to create order" });
     }
   });
-// Admin Routes
-import { Express, Request, Response } from "express";
-import { verifyAdmin } from "./middlewares/verifyAdmin";
-import { storage } from "./storage"; // Use your storage class
-
-export async function registerAdminRoutes(app: Express) {
-  // Add a new product
-  app.post("/api/admin/products", verifyAdmin, async (req: Request, res: Response) => {
-    try {
-      const product = req.body;
-      const newProduct = await storage.addProduct(product); // Implement addProduct in storage
-      res.status(201).json(newProduct);
-    } catch (error) {
-      console.error("Error adding product:", error);
-      res.status(500).json({ message: "Failed to add product" });
-    }
-  });
-
-  // Update an existing product
-  app.put("/api/admin/products/:id", verifyAdmin, async (req: Request, res: Response) => {
-    try {
-      const productId = parseInt(req.params.id);
-      const productData = req.body;
-      const updatedProduct = await storage.updateProduct(productId, productData);
-      if (!updatedProduct) {
-        return res.status(404).json({ message: "Product not found" });
-      }
-      res.json(updatedProduct);
-    } catch (error) {
-      console.error("Error updating product:", error);
-      res.status(500).json({ message: "Failed to update product" });
-    }
-  });
-
-  // Delete a product
-  app.delete("/api/admin/products/:id", verifyAdmin, async (req: Request, res: Response) => {
-    try {
-      const productId = parseInt(req.params.id);
-      const deleted = await storage.deleteProduct(productId); // Implement deleteProduct in storage
-      if (!deleted) {
-        return res.status(404).json({ message: "Product not found" });
-      }
-      res.status(204).end();
-    } catch (error) {
-      console.error("Error deleting product:", error);
-      res.status(500).json({ message: "Failed to delete product" });
-    }
-  });
-}
-
+  
   const httpServer = createServer(app);
   return httpServer;
 }
