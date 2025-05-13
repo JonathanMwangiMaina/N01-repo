@@ -409,7 +409,7 @@ async function setupVite(app2, server) {
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
-    allowedHosts: true
+    allowedHosts: void 0
   };
   const vite = await createViteServer({
     ...vite_config_default,
@@ -599,6 +599,7 @@ async function seedProducts() {
   try {
     const result = await db.insert(products).values(productData);
     console.log(`Successfully inserted ${productData.length} products`);
+    return result;
   } catch (error) {
     console.error("Error seeding products:", error);
   }
@@ -1112,7 +1113,7 @@ app.use((req, res, next) => {
     console.error("Error initializing database:", error);
   }
   const server = await registerRoutes(app);
-  app.use((err, _req, res, _next) => {
+  app.use((err, _req, res) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
     res.status(status).json({ message });

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useCart } from "@/hooks/use-cart";
 import { CartItem } from "@/components/ui/cart-item";
 import { Button } from "@/components/ui/button";
@@ -150,7 +150,7 @@ export default function Checkout() {
                         <FormItem>
                           <FormLabel>First name</FormLabel>
                           <FormControl>
-                            <Input {...field} className="mt-1" />
+                            <Input {...field} value={field.value ?? ""} className="mt-1" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -164,7 +164,7 @@ export default function Checkout() {
                         <FormItem>
                           <FormLabel>Last name</FormLabel>
                           <FormControl>
-                            <Input {...field} className="mt-1" />
+                            <Input {...field} value={field.value ?? ""} className="mt-1" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -225,9 +225,9 @@ export default function Checkout() {
                       render={({ field }) => (
                         <FormItem className="sm:col-span-2">
                           <FormLabel>Apartment, suite, etc.</FormLabel>
-                          <FormControl>
-                            <Input {...field} className="mt-1" />
-                          </FormControl>
+                            <FormControl>
+                            <Input {...field} value={field.value ?? ""} placeholder="e.g., Apt 101" className="mt-1" />
+                            </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -291,14 +291,31 @@ export default function Checkout() {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="United States">United States</SelectItem>
-                              <SelectItem value="Canada">Canada</SelectItem>
-                              <SelectItem value="Mexico">Mexico</SelectItem>
-                              <SelectItem value="United Kingdom">United Kingdom</SelectItem>
-                              <SelectItem value="Germany">Germany</SelectItem>
-                              <SelectItem value="France">France</SelectItem>
-                              <SelectItem value="Japan">Japan</SelectItem>
-                              <SelectItem value="Australia">Australia</SelectItem>
+                                <SelectItem value="Australia">Australia</SelectItem>
+                                <SelectItem value="Belgium">Belgium</SelectItem>
+                                <SelectItem value="Brazil">Brazil</SelectItem>
+                                <SelectItem value="Canada">Canada</SelectItem>
+                                <SelectItem value="China">China</SelectItem>
+                                <SelectItem value="Denmark">Denmark</SelectItem>
+                                <SelectItem value="Finland">Finland</SelectItem>
+                                <SelectItem value="France">France</SelectItem>
+                                <SelectItem value="Germany">Germany</SelectItem>
+                                <SelectItem value="India">India</SelectItem>
+                                <SelectItem value="Italy">Italy</SelectItem>
+                                <SelectItem value="Japan">Japan</SelectItem>
+                                <SelectItem value="Kenya">Kenya</SelectItem>
+                                <SelectItem value="Mexico">Mexico</SelectItem>
+                                <SelectItem value="Netherlands">Netherlands</SelectItem>
+                                <SelectItem value="Nigeria">Nigeria</SelectItem>
+                                <SelectItem value="Norway">Norway</SelectItem>
+                                <SelectItem value="Russia">Russia</SelectItem>
+                                <SelectItem value="South Africa">South Africa</SelectItem>
+                                <SelectItem value="Spain">Spain</SelectItem>
+                                <SelectItem value="Sweden">Sweden</SelectItem>
+                                <SelectItem value="Tanzania">Tanzania</SelectItem>
+                                <SelectItem value="Uganda">Uganda</SelectItem>
+                                <SelectItem value="United Kingdom">United Kingdom</SelectItem>
+                                <SelectItem value="United States">United States</SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -320,6 +337,7 @@ export default function Checkout() {
                         checked={paymentMethod === "card"}
                         onChange={() => setPaymentMethod("card")}
                         className="h-4 w-4 text-secondary-600 border-gray-300 focus:ring-secondary-500" 
+                        title="Select Credit Card as Payment Method"
                       />
                       <Label htmlFor="card" className="ml-3 block text-sm font-medium text-gray-700">Credit Card</Label>
                     </div>
@@ -368,7 +386,8 @@ export default function Checkout() {
                         type="radio"
                         checked={paymentMethod === "paypal"}
                         onChange={() => setPaymentMethod("paypal")}
-                        className="h-4 w-4 text-secondary-600 border-gray-300 focus:ring-secondary-500" 
+                        className="h-4 w-4 text-secondary-600 border-gray-300 focus:ring-secondary-500"
+                        title="Select PayPal as Payment Method" 
                       />
                       <Label htmlFor="paypal" className="ml-3 block text-sm font-medium text-gray-700">PayPal</Label>
                     </div>
@@ -382,7 +401,7 @@ export default function Checkout() {
                             className="h-8" 
                           />
                           <p className="text-sm text-gray-600 text-center">
-                            You'll be redirected to PayPal to complete your payment securely.
+                            You&#39;ll be redirected to PayPal to complete your payment securely.
                           </p>
                           <Button
                             type="button"
