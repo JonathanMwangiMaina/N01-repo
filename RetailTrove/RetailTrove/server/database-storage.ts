@@ -5,7 +5,6 @@ import {
   type InsertCartItem,
   type Order,
   type InsertOrder,
-  type OrderItem,
   type InsertOrderItem,
   products,
   cartItems,
@@ -17,6 +16,27 @@ import { eq, and, ilike, or, desc } from "drizzle-orm";
 import { IStorage } from "./storage";
 
 export class DatabaseStorage implements IStorage {
+  async updateProduct(id: number, productData: Partial<Product>): Promise<Product | undefined> {
+    const [updatedProduct] = await db
+      .update(products)
+      .set(productData)
+      .where(eq(products.id, id))
+      .returning();
+    return updatedProduct;
+  }
+
+  async deleteProduct(id: number): Promise<boolean> {
+    const [deleted] = await db
+      .delete(products)
+      .where(eq(products.id, id))
+      .returning({ id: products.id });
+    return !!deleted;
+  }
+
+  async getAllOrders(): Promise<Order[]> {
+    return await db.select().from(orders).orderBy(desc(orders.createdAt));
+  }
+
   // Products
   async getProducts(): Promise<Product[]> {
     return await db.select().from(products);
