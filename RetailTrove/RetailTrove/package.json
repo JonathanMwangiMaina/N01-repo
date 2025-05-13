@@ -1,8 +1,18 @@
 {
   "name": "rest-express",
   "version": "1.0.0",
-  "type": "module",
+  "description": "",
+  "keywords": [
+    "RetailTrove"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "N01-repo"
+  },
   "license": "MIT",
+  "author": "Jonathan Maina",
+  "type": "module",
+  "main": "postcss.config.js",
   "scripts": {
     "dev": "NODE_ENV=development tsx server/index.ts",
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",

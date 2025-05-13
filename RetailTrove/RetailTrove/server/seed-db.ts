@@ -146,6 +146,7 @@ async function seedProducts() {
     // Insert all products
     const result = await db.insert(products).values(productData);
     console.log(`Successfully inserted ${productData.length} products`);
+    return result;
   } catch (error) {
     console.error("Error seeding products:", error);
   }

@@ -1,10 +1,9 @@
-import express, { type Request, Response, NextFunction } from "express";
+import express, { type Request, Response } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { seed } from "./seed-db";
 import { updateProducts } from "./update-products";
 import { updateProducts2 } from "./update-products-2";
-import { db } from "./db";
 
 const app = express();
 app.use(express.json());
@@ -13,7 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
+  let capturedJsonResponse: Record<string, unknown> | undefined = undefined;
 
   const originalResJson = res.json;
   res.json = function (bodyJson, ...args) {
@@ -56,10 +55,15 @@ app.use((req, res, next) => {
   
   const server = await registerRoutes(app);
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  interface CustomError extends Error {
+    status?: number;
+    statusCode?: number;
+  }
+
+  app.use((err: CustomError, _req: Request, res: Response) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
-
+  
     res.status(status).json({ message });
     throw err;
   });
