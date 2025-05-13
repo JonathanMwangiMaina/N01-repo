@@ -3,7 +3,6 @@ import {
   CartItem, InsertCartItem, CartItemWithProduct,
   Order, InsertOrder,
   OrderItem, InsertOrderItem,
-  products
 } from "@shared/schema";
 
 export interface IStorage {
@@ -52,6 +51,22 @@ export class MemStorage implements IStorage {
     
     // Initialize with sample products
     this.initializeProducts();
+  }
+  async updateProduct(id: number, productData: Partial<Product>): Promise<Product | undefined> {
+    const existingProduct = this.products.get(id);
+    if (!existingProduct) {
+      return undefined;
+    }
+
+    const updatedProduct = { ...existingProduct, ...productData, id };
+    this.products.set(id, updatedProduct);
+    return updatedProduct;
+  }
+  deleteProduct(): Promise<boolean> {
+    throw new Error("Method not implemented.");
+  }
+  getAllOrders(): Promise<Order[]> {
+    throw new Error("Method not implemented.");
   }
 
   // Product Methods
@@ -130,14 +145,14 @@ export class MemStorage implements IStorage {
     );
 
     if (existingCartItem) {
-      existingCartItem.quantity += cartItem.quantity;
+      existingCartItem.quantity += cartItem.quantity ?? 0;
       this.cartItems.set(existingCartItem.id, existingCartItem);
       return existingCartItem;
     }
 
     // Otherwise add new cart item
     const id = this.currentCartItemId++;
-    const newCartItem: CartItem = { id, ...cartItem };
+    const newCartItem: CartItem = { id, ...cartItem, quantity: cartItem.quantity ?? 1 };
     this.cartItems.set(id, newCartItem);
     return newCartItem;
   }
@@ -166,6 +181,7 @@ export class MemStorage implements IStorage {
     const order: Order = { 
       id: orderId, 
       ...orderData,
+      apartment: orderData.apartment ?? null,
       createdAt: new Date()
     };
     
@@ -177,6 +193,7 @@ export class MemStorage implements IStorage {
       const orderItem: OrderItem = {
         id: orderItemId,
         ...item,
+        quantity: item.quantity ?? 0, // Ensure quantity is always a number
         orderId
       };
       this.orderItems.set(orderItemId, orderItem);
@@ -356,6 +373,13 @@ export class MemStorage implements IStorage {
       this.products.set(id, {
         id,
         ...product,
+        subcategory: product.subcategory ?? null,
+        originalPrice: product.originalPrice ?? null,
+        badge: product.badge ?? null,
+        featured: product.featured ?? null,
+        newArrival: product.newArrival ?? null,
+        inStock: product.inStock ?? null,
+        rating: product.rating ?? null,
         createdAt: new Date()
       });
     });
