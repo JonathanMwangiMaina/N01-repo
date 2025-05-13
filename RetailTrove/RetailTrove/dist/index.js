@@ -126,8 +126,19 @@ var pool = new Pool({ connectionString: process.env.DATABASE_URL });
 var db = drizzle(pool, { schema: schema_exports });
 
 // server/database-storage.ts
-import { eq, and, ilike, or } from "drizzle-orm";
+import { eq, and, ilike, or, desc } from "drizzle-orm";
 var DatabaseStorage = class {
+  async updateProduct(id, productData) {
+    const [updatedProduct] = await db.update(products).set(productData).where(eq(products.id, id)).returning();
+    return updatedProduct;
+  }
+  async deleteProduct(id) {
+    const [deleted] = await db.delete(products).where(eq(products.id, id)).returning({ id: products.id });
+    return !!deleted;
+  }
+  async getAllOrders() {
+    return await db.select().from(orders).orderBy(desc(orders.createdAt));
+  }
   // Products
   async getProducts() {
     return await db.select().from(products);
