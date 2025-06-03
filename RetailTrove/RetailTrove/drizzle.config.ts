@@ -1,3 +1,5 @@
+import 'dotenv/config';
+// This file is used to configure Drizzle ORM migrations
 import { defineConfig } from "drizzle-kit";
 
 if (!process.env.DATABASE_URL) {
